@@ -1,12 +1,11 @@
 package net.sahmi.demobdccspringdata.web;
 
 
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import net.sahmi.demobdccspringdata.entities.Product;
 import net.sahmi.demobdccspringdata.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,8 +23,18 @@ public class ProductRestController {
                 ()-> new RuntimeException("Product not found"));
     }
     @GetMapping("/find/products")
-    public List<Product> findProducts(String kw) {
+    public List<Product> findProducts(@RequestParam String kw) {
         return productRepository.findByNameContains(kw);
     }
+    @PostMapping("/products")
+    public Product save(@RequestBody Product product){
+        return productRepository.save(product);
+    }
+    @DeleteMapping("/products/{id}")
+    public Product deleteProduct(@PathVariable Long id){
+        productRepository.deleteById(id);
+        return null;
+    }
+
 
 }
