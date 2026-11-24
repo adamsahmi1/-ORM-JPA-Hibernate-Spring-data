@@ -23,5 +23,9 @@ public class ProductRestController {
         return productRepository.findById(id).orElseThrow(
                 ()-> new RuntimeException("Product not found"));
     }
+    @GetMapping("/find/products")
+    public List<Product> findProducts(String kw) {
+        return productRepository.findByNameContains(kw);
+    }
 
 }
